@@ -190,7 +190,7 @@
       background: rgba(255,255,255,0.88);
       backdrop-filter: blur(4px);
       border: 1px solid rgba(184,134,11,0.12);
-      border-radius: 16px;
+      border-radius: 20px;
       transition: transform 0.3s, box-shadow 0.3s;
       overflow: hidden;
       cursor: pointer;
@@ -321,6 +321,7 @@
     }
 
     .book-modal {
+      border-radius: 20px;
       background: var(--cream);
       max-width: 640px;
       width: 100%;
@@ -338,6 +339,8 @@
     }
 
     .book-modal-cover {
+      border-radius: 20px 0 0 20px;
+      overflow: hidden;
       width: 220px;
       flex-shrink: 0;
       background: var(--cream-dark);
@@ -448,7 +451,13 @@
       border-radius: 30px;
       transition: background 0.25s, transform 0.25s;
     }
-    .add-btn:hover { background: #9A7009; transform: translateY(-2px); }
+    .add-btn {
+      background: linear-gradient(180deg, #CDA02A, #A87908);
+      box-shadow: 0 3px 0 #7D5C06, 0 5px 10px rgba(0,0,0,0.12);
+      transition: all 0.15s;
+    }
+    .add-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 #7D5C06, 0 7px 14px rgba(0,0,0,0.14); }
+    .add-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #7D5C06, 0 2px 5px rgba(0,0,0,0.1); }
 
     .form-overlay {
       position: fixed; inset: 0;
@@ -460,6 +469,7 @@
     }
     .form-overlay.open { display: flex; }
     .form-modal {
+      border-radius: 20px;
       background: var(--cream);
       max-width: 480px; width: 100%;
       max-height: 88vh; overflow-y: auto;
@@ -485,10 +495,14 @@
     .form-modal textarea { resize: vertical; min-height: 70px; }
     .form-modal .form-submit {
       margin-top: 22px; width: 100%; padding: 12px;
-      background: var(--gold); color: #fff; border: none;
+      background: linear-gradient(180deg, #CDA02A, #A87908);
+      color: #fff; border: none; border-radius: 30px;
+      box-shadow: 0 3px 0 #7D5C06, 0 5px 10px rgba(0,0,0,0.12);
       font-size: 13px; letter-spacing: 0.08em; cursor: pointer;
+      transition: all 0.15s;
     }
-    .form-modal .form-submit:hover { background: #9A7009; }
+    .form-modal .form-submit:hover { transform: translateY(-1px); }
+    .form-modal .form-submit:active { transform: translateY(2px); box-shadow: 0 1px 0 #7D5C06; }
     .form-close {
       position: absolute; top: 12px; right: 14px;
       background: none; border: none; font-size: 20px;

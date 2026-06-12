@@ -216,7 +216,7 @@ nav {
 }
 
 .section-card {
-  border-radius: 16px;
+  border-radius: 20px;
   text-decoration: none;
   display: flex;
   flex-direction: column;
@@ -329,22 +329,38 @@ nav {
 }
 
 .filter-btn {
-  padding: 7px 18px;
-  border: 1px solid rgba(184, 134, 11, 0.3);
-  background: transparent;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(180deg, #FFFFFF, #EFE9DF);
   color: var(--ink-light);
   font-family: 'Inter', sans-serif;
   font-size: 12px;
   letter-spacing: 0.06em;
   cursor: pointer;
-  transition: all 0.25s;
+  box-shadow: 0 3px 0 rgba(184, 134, 11, 0.35), 0 5px 10px rgba(0,0,0,0.08);
+  transition: all 0.15s;
 }
 
-.filter-btn:hover,
+.filter-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 rgba(184, 134, 11, 0.35), 0 7px 14px rgba(0,0,0,0.1);
+}
+
+.filter-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(184, 134, 11, 0.35), 0 2px 5px rgba(0,0,0,0.08);
+}
+
 .filter-btn.active {
-  background: var(--gold);
+  background: linear-gradient(180deg, #CDA02A, #A87908);
   color: var(--white);
-  border-color: var(--gold);
+  box-shadow: 0 3px 0 #7D5C06, 0 5px 10px rgba(0,0,0,0.12);
+}
+
+.filter-btn.active:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #7D5C06, 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .books-grid {
@@ -446,7 +462,7 @@ nav {
 }
 
 .podcast-card {
-  border-radius: 16px;
+  border-radius: 20px;
   display: flex;
   gap: 20px;
   padding: 24px;
@@ -536,7 +552,7 @@ nav {
 }
 
 .project-card {
-  border-radius: 16px;
+  border-radius: 20px;
   background: var(--white);
   border: 1px solid rgba(184, 134, 11, 0.12);
   overflow: hidden;
@@ -635,7 +651,7 @@ nav {
 }
 
 .reco-card {
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 24px;
   background: var(--white);
   border: 1px solid rgba(184, 134, 11, 0.12);
