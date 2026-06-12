@@ -5,13 +5,145 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Podcasts · Mi espacio</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <style>
+    /* ── PODCAST BUBBLES LAYOUT ── */
+    .podcast-section {
+      margin-bottom: 56px;
+    }
+
+    .podcast-section-label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .podcast-section-label .section-flag {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .podcast-section-label h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+    }
+
+    .podcast-section-label h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .podcast-section-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(184, 134, 11, 0.15);
+    }
+
+    /* ── BUBBLE GRID ── */
+    .bubbles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+    }
+
+    .bubble-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .bubble-img-wrap {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--cream-dark);
+      border: 1.5px solid rgba(184, 134, 11, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      position: relative;
+    }
+
+    .bubble-card:hover .bubble-img-wrap {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 14px 32px rgba(184, 134, 11, 0.13);
+      border-color: rgba(184, 134, 11, 0.4);
+    }
+
+    .bubble-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .bubble-status {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .bubble-status.escuchando {
+      background: rgba(184, 134, 11, 0.15);
+      color: var(--gold);
+    }
+
+    .bubble-status.escuchado {
+      background: rgba(61, 53, 48, 0.08);
+      color: var(--ink-light);
+    }
+
+    .bubble-status.pendiente {
+      background: rgba(176, 169, 164, 0.2);
+      color: var(--ink-lighter);
+    }
+
+    .bubble-name {
+      margin-top: 12px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .bubble-host {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--ink-lighter);
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      .bubbles-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .bubble-name { font-size: 13px; }
+    }
+  </style>
 </head>
 <body>
 
   <nav>
     <a href="index.html" class="nav-logo">
-      <img src="logo.png" alt="Logo">
+      <img src="assets/logo.png" alt="Logo">
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="libros.html">Libros</a></li>
@@ -33,84 +165,79 @@
 
     <div class="content-area">
 
-      <div class="books-filters">
-        <button class="filter-btn active" data-filter="all">Todos</button>
-        <button class="filter-btn" data-filter="escuchando">Escuchando</button>
-        <button class="filter-btn" data-filter="escuchado">Escuchados</button>
-        <button class="filter-btn" data-filter="pendiente">Pendientes</button>
+      <!-- SECCIÓN: INGLÉS -->
+      <div class="podcast-section">
+        <div class="podcast-section-label">
+          <span class="section-flag">🇬🇧</span>
+          <h2>En <em>inglés</em></h2>
+          <div class="podcast-section-line"></div>
+        </div>
+
+        <div class="bubbles-grid">
+
+          <div class="bubble-card">
+            <div class="bubble-img-wrap">
+              🎙️
+              <span class="bubble-status escuchando">Escuchando</span>
+            </div>
+            <div class="bubble-name">Call Her Daddy</div>
+            <div class="bubble-host">Alex Cooper</div>
+          </div>
+
+          <!-- Añade más podcasts en inglés aquí -->
+
+        </div>
       </div>
 
-      <div class="podcasts-list" id="podcastsList">
-
-        <div class="podcast-card" data-status="escuchando">
-          <div class="podcast-thumb">🎙️</div>
-          <div class="podcast-info">
-            <span class="podcast-status escuchando">Escuchando</span>
-            <div class="podcast-title">Nombre del podcast</div>
-            <div class="podcast-host">Con Nombre del presentador</div>
-            <div class="podcast-desc">
-              Breve descripción del podcast. De qué trata, qué te aporta, 
-              por qué lo recomiendas o lo tienes en lista.
-            </div>
-          </div>
+      <!-- SECCIÓN: HUMOR -->
+      <div class="podcast-section">
+        <div class="podcast-section-label">
+          <span class="section-flag">😂</span>
+          <h2><em>Humor</em></h2>
+          <div class="podcast-section-line"></div>
         </div>
 
-        <div class="podcast-card" data-status="escuchado">
-          <div class="podcast-thumb">🎧</div>
-          <div class="podcast-info">
-            <span class="podcast-status escuchado">Escuchado</span>
-            <div class="podcast-title">Otro podcast</div>
-            <div class="podcast-host">Con Alguien interesante</div>
-            <div class="podcast-desc">
-              Tu valoración. Lo que te pareció, episodios favoritos, 
-              a quién se lo recomendarías.
-            </div>
-          </div>
-        </div>
+        <div class="bubbles-grid">
 
-        <div class="podcast-card" data-status="pendiente">
-          <div class="podcast-thumb">⏳</div>
-          <div class="podcast-info">
-            <span class="podcast-status pendiente">Pendiente</span>
-            <div class="podcast-title">Por escuchar</div>
-            <div class="podcast-host">Con Alguien</div>
-            <div class="podcast-desc">
-              Por qué te llama la atención o quién te lo recomendó.
+          <div class="bubble-card">
+            <div class="bubble-img-wrap">
+              🎤
+              <span class="bubble-status escuchando">Escuchando</span>
             </div>
+            <div class="bubble-name">Estirando el Chicle</div>
+            <div class="bubble-host">Carolina Iglesias · Victoria Martín</div>
           </div>
-        </div>
 
+          <div class="bubble-card">
+            <div class="bubble-img-wrap">
+              🃏
+              <span class="bubble-status escuchando">Escuchando</span>
+            </div>
+            <div class="bubble-name">Reyes del Palique</div>
+            <div class="bubble-host">Ignatius Farray · Jorge Ponce</div>
+          </div>
+
+          <!-- Añade más podcasts de humor aquí -->
+
+        </div>
       </div>
+
+      <!-- Añade más secciones copiando el bloque podcast-section -->
+
     </div>
 
   </main>
 
   <footer>
-    <div class="footer-logo"><img src="logo.png" alt="Logo"></div>
+    <div class="footer-logo"><img src="assets/logo.png" alt="Logo"></div>
     <p class="footer-text">Hecho con cariño · <span id="year"></span></p>
   </footer>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
     hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
-
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.podcast-card');
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        cards.forEach(card => {
-          card.style.display =
-            filter === 'all' || card.dataset.status === filter ? '' : 'none';
-        });
-      });
-    });
   </script>
 
 </body>
