@@ -828,3 +828,98 @@ footer {
     opacity: 1;
   }
 }
+
+/* ── FONDOS POR PÁGINA ── */
+body.page-index    { background-image: url('assets/fondo_1.jpeg'); }
+body.page-libros   { background-image: url('assets/fondo_2.jpeg'); }
+body.page-podcasts { background-image: url('assets/fondo_5.jpeg'); }
+body.page-proyectos { background-image: url('assets/fondo_6.jpeg'); }
+body.page-recomendaciones { background-image: url('assets/fondo_1.jpeg'); }
+
+body.page-index,
+body.page-libros,
+body.page-podcasts,
+body.page-proyectos,
+body.page-recomendaciones {
+  background-repeat: repeat;
+  background-size: 420px;
+  filter: none;
+}
+
+/* Saturación bajada solo en el fondo, no en el contenido */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: inherit;
+  background-attachment: fixed;
+  filter: saturate(0.45) brightness(1.08);
+}
+
+body {
+  background-attachment: fixed;
+  /* El body en sí queda transparente para que ::before maneje el fondo */
+  background-color: transparent;
+}
+
+/* ── POLAROID ── */
+.polaroid-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 48px;
+}
+
+.polaroid {
+  background: #fff;
+  padding: 14px 14px 40px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.13), 0 1px 4px rgba(0,0,0,0.08);
+  transform: rotate(-2deg);
+  transition: transform 0.3s, box-shadow 0.3s;
+  max-width: 260px;
+  width: 100%;
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.03);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+}
+
+.polaroid img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.polaroid-caption {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink-light);
+  margin-top: 12px;
+  letter-spacing: 0.03em;
+}
+
+/* Cards con fondo blanco semitransparente para legibilidad sobre fondos */
+.section-card,
+.book-card,
+.podcast-card,
+.project-card,
+.reco-card,
+.bubble-img-wrap {
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+nav {
+  background: rgba(250, 247, 242, 0.88);
+}
+
+.page-header {
+  background: rgba(250, 247, 242, 0.7);
+  border-radius: 4px;
+  padding: 40px;
+}
