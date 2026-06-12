@@ -860,36 +860,35 @@ body {
 }
 
 
-/* ── LOGO DE PÁGINA (arriba a la derecha) ── */
+/* ── POLAROID (abajo a la izquierda) ── */
+.polaroid-wrap {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 5;
+}
+
+/* ── LOGO DE PÁGINA (abajo a la derecha) ── */
 .page-logo {
-  position: absolute;
-  top: 88px;
-  right: 48px;
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
   width: 110px;
   height: 110px;
   border-radius: 50%;
   object-fit: cover;
-  z-index: 6;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  z-index: 5;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
   border: 3px solid rgba(255,255,255,0.85);
 }
 
 @media (max-width: 900px) {
   .page-logo {
-    position: static;
-    display: block;
-    margin: 20px auto 0;
-    width: 90px;
-    height: 90px;
+    width: 70px;
+    height: 70px;
+    bottom: 16px;
+    right: 16px;
   }
-}
-
-/* ── POLAROID (debajo del logo, a la derecha) ── */
-.polaroid-wrap {
-  position: absolute;
-  top: 220px;
-  right: 48px;
-  z-index: 5;
 }
 
 .page-wrapper {

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Libros · Mi espacio</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="icon" type="image/png" href="assets/web_logo.png">
   <style>
 
     /* ── RANKING / ESTANTERÍA ── */
@@ -88,7 +88,6 @@
     }
 
     .book-spine {
-      width: 36px;
       border-radius: 3px 0 0 3px;
       display: flex;
       align-items: center;
@@ -293,7 +292,7 @@
 
     @media (max-width: 600px) {
       .shelf-section { padding: 0 16px; }
-      .book-spine { width: 28px; font-size: 9px; }
+      .book-spine { font-size: 9px; }
       .books-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
     }
 
@@ -431,13 +430,85 @@
       .book-modal-cover { width: 100%; max-height: 280px; }
       .book-modal-cover img { max-height: 280px; }
     }
+
+    /* ── BOTÓN AÑADIR + MODAL FORM ── */
+    .add-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: background 0.25s, transform 0.25s;
+    }
+    .add-btn:hover { background: #9A7009; transform: translateY(-2px); }
+
+    .form-overlay {
+      position: fixed; inset: 0;
+      background: rgba(40,33,28,0.55);
+      backdrop-filter: blur(4px);
+      z-index: 300;
+      display: none; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .form-overlay.open { display: flex; }
+    .form-modal {
+      background: var(--cream);
+      max-width: 480px; width: 100%;
+      max-height: 88vh; overflow-y: auto;
+      padding: 32px 28px; position: relative;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+    }
+    .form-modal h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 500;
+      margin-bottom: 20px; color: var(--ink);
+    }
+    .form-modal label {
+      display: block; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-light); margin: 14px 0 5px;
+    }
+    .form-modal input, .form-modal select, .form-modal textarea {
+      width: 100%; padding: 9px 12px;
+      border: 1px solid rgba(184,134,11,0.3);
+      background: #fff; font-family: 'Inter', sans-serif;
+      font-size: 13px; color: var(--ink);
+    }
+    .form-modal textarea { resize: vertical; min-height: 70px; }
+    .form-modal .form-submit {
+      margin-top: 22px; width: 100%; padding: 12px;
+      background: var(--gold); color: #fff; border: none;
+      font-size: 13px; letter-spacing: 0.08em; cursor: pointer;
+    }
+    .form-modal .form-submit:hover { background: #9A7009; }
+    .form-close {
+      position: absolute; top: 12px; right: 14px;
+      background: none; border: none; font-size: 20px;
+      color: var(--ink-light); cursor: pointer;
+    }
+    .snippet-box {
+      display: none; margin-top: 18px; padding: 14px;
+      background: rgba(184,134,11,0.07);
+      border: 1px dashed rgba(184,134,11,0.4);
+      font-size: 11px;
+    }
+    .snippet-box.show { display: block; }
+    .snippet-box p { margin-bottom: 8px; color: var(--ink-light); line-height: 1.5; }
+    .snippet-box textarea { width: 100%; min-height: 140px; font-family: monospace; font-size: 11px; }
   </style>
 </head>
 <body class="page-libros">
 
   <nav>
     <a href="index.html" class="nav-logo">
-      <img src="assets/logo.png" alt="Logo">
+      <img src="assets/web_logo.png" alt="Logo">
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="libros.html" class="active">Libros</a></li>
@@ -452,6 +523,7 @@
 
   <main class="page-wrapper">
     <img src="assets/web_libro.png" alt="" class="page-logo">
+
 
 
     <div class="page-header">
@@ -483,11 +555,69 @@
         <button class="filter-btn" data-filter="leido">Leídos</button>
         <button class="filter-btn" data-filter="leyendo">Leyendo ahora</button>
         <button class="filter-btn" data-filter="pendiente">Pendientes</button>
+        <button class="add-btn" id="addBookBtn">＋ Añadir libro</button>
       </div>
 
       <div class="books-grid" id="booksGrid"></div>
     </div>
 
+
+
+    <!-- ── MODAL AÑADIR LIBRO ── -->
+    <div class="form-overlay" id="addOverlay">
+      <div class="form-modal">
+        <button class="form-close" id="addClose">✕</button>
+        <h3>Añadir libro</h3>
+
+        <label>Título</label>
+        <input type="text" id="bTitulo">
+
+        <label>Autor/a</label>
+        <input type="text" id="bAutor">
+
+        <label>Estrellas (0 si aún no lo has terminado)</label>
+        <select id="bEstrellas">
+          <option value="0">Sin valorar</option>
+          <option value="1">★</option>
+          <option value="2">★★</option>
+          <option value="3">★★★</option>
+          <option value="4">★★★★</option>
+          <option value="5">★★★★★</option>
+        </select>
+
+        <label>Estado</label>
+        <select id="bEstado">
+          <option value="leido">Leído</option>
+          <option value="leyendo">Leyendo</option>
+          <option value="pendiente">Pendiente</option>
+        </select>
+
+        <label>Fecha inicio (p. ej. Ene 2025)</label>
+        <input type="text" id="bInicio">
+
+        <label>Fecha fin (vacío si sigues leyéndolo)</label>
+        <input type="text" id="bFin">
+
+        <label>Nº de páginas</label>
+        <input type="number" id="bPaginas">
+
+        <label>Resumen / opinión</label>
+        <textarea id="bResumen"></textarea>
+
+        <label>Color del lomo</label>
+        <input type="color" id="bColor" value="#7B9E87" style="height:42px;padding:4px">
+
+        <label>Portada (ruta en assets, opcional)</label>
+        <input type="text" id="bPortada" placeholder="assets/libro_nombre.jpg">
+
+        <button class="form-submit" id="addSubmit">Añadir</button>
+
+        <div class="snippet-box" id="snippetBox">
+          <p>✅ Añadido. Se guarda en este navegador. Para hacerlo <strong>permanente</strong>, copia esto y pégalo en el array LIBROS de libros.html:</p>
+          <textarea id="snippetText" readonly></textarea>
+        </div>
+      </div>
+    </div>
 
     <!-- ── MODAL FICHA ── -->
     <div class="book-modal-overlay" id="bookModalOverlay">
@@ -507,7 +637,7 @@
   </main>
 
   <footer>
-    <div class="footer-logo"><img src="assets/logo.png" alt="Logo"></div>
+    <div class="footer-logo"><img src="assets/web_logo.png" alt="Logo"></div>
     <p class="footer-text">Hecho con cariño · <span id="year"></span></p>
   </footer>
 
@@ -519,6 +649,7 @@
     // ── DATOS DE LIBROS ──
     // Edita aquí para añadir o cambiar libros
     const LIBROS = [
+      // ⚠️ EDITA: estrellas, estado, fechas, páginas y resumen de cada libro
       {
         titulo: 'De Sangre y Cenizas',
         autor: 'Jennifer L. Armentrout',
@@ -526,43 +657,89 @@
         estado: 'leido',
         fechaInicio: 'Ene 2025',
         fechaFin: 'Feb 2025',
-        resumen: 'Aquí va tu opinión personal del libro. Lo que te pareció, qué te llevaste, si lo recomendarías y a quién.',
+        paginas: 661,
+        resumen: 'Tu opinión aquí.',
         color: '#5C1F1F',
         emoji: '🗡️',
         portada: 'assets/libro_desangreycenizas.jpg'
       },
       {
-        titulo: 'Otro libro',
-        autor: 'Otra autora',
+        titulo: 'Un Reino de Carne y Fuego',
+        autor: 'Jennifer L. Armentrout',
+        estrellas: 5,
+        estado: 'leido',
+        fechaInicio: 'Feb 2025',
+        fechaFin: 'Mar 2025',
+        paginas: 786,
+        resumen: 'Tu opinión aquí.',
+        color: '#B8B0A8',
+        emoji: '🏹',
+        portada: 'assets/libro_unreinodecarneyfuego.jpg'
+      },
+      {
+        titulo: 'Una Corona de Huesos Dorados',
+        autor: 'Jennifer L. Armentrout',
         estrellas: 4,
         estado: 'leido',
         fechaInicio: 'Mar 2025',
         fechaFin: 'Abr 2025',
-        resumen: 'Tu valoración. Lo que destacarías, lo que menos te gustó, a quién se lo recomendarías.',
-        color: '#C4956A',
-        emoji: '📙'
+        paginas: 784,
+        resumen: 'Tu opinión aquí.',
+        color: '#7A1E1E',
+        emoji: '👑',
+        portada: 'assets/libro_unacoronadehuesosdorados.jpg'
       },
       {
-        titulo: 'Leyendo ahora',
-        autor: 'Autor',
-        estrellas: 0,
-        estado: 'leyendo',
+        titulo: 'Una Sombra en las Brasas',
+        autor: 'Jennifer L. Armentrout',
+        estrellas: 4,
+        estado: 'leido',
+        fechaInicio: 'Abr 2025',
+        fechaFin: 'May 2025',
+        paginas: 752,
+        resumen: 'Tu opinión aquí.',
+        color: '#6B6560',
+        emoji: '🌙',
+        portada: 'assets/libro_unasombraenlasbrasas.jpg'
+      },
+      {
+        titulo: 'Las Mujeres de la Guerra',
+        autor: 'Kristin Hannah',
+        estrellas: 5,
+        estado: 'leido',
+        fechaInicio: 'May 2025',
+        fechaFin: 'May 2025',
+        paginas: 560,
+        resumen: 'Tu opinión aquí.',
+        color: '#C0392B',
+        emoji: '🚁',
+        portada: 'assets/libro_lasmujeresdelaguerra.jpg'
+      },
+      {
+        titulo: 'The Deal',
+        autor: 'Elle Kennedy',
+        estrellas: 4,
+        estado: 'leido',
+        fechaInicio: 'Jun 2025',
+        fechaFin: 'Jun 2025',
+        paginas: 432,
+        resumen: 'Tu opinión aquí.',
+        color: '#A8C4D4',
+        emoji: '🏒',
+        portada: 'assets/libro_thedeal.jpg'
+      },
+      {
+        titulo: 'Yo que nunca supe de los hombres',
+        autor: 'Jacqueline Harpman',
+        estrellas: 4,
+        estado: 'leido',
         fechaInicio: 'Jun 2025',
         fechaFin: null,
-        resumen: 'Impresiones mientras lo lees. Puedes actualizarlo cuando termines.',
-        color: '#A0B4C8',
-        emoji: '📘'
-      },
-      {
-        titulo: 'Pendiente de leer',
-        autor: 'Autor',
-        estrellas: 0,
-        estado: 'pendiente',
-        fechaInicio: null,
-        fechaFin: null,
-        resumen: 'Por qué tienes ganas de leerlo o quién te lo recomendó.',
-        color: '#C4A882',
-        emoji: '📕'
+        paginas: 192,
+        resumen: 'Tu opinión aquí.',
+        color: '#8A7A5C',
+        emoji: '👤',
+        portada: 'assets/libro_yoquenuncasupedeloshombres.jpg'
       },
     ];
 
@@ -572,11 +749,14 @@
       return '★'.repeat(n) + '<span style="opacity:0.25">★</span>'.repeat(5 - n);
     }
 
+    // ── EXTRAS (añadidos desde el navegador) ──
+    let extras = [];
+    try { extras = JSON.parse(localStorage.getItem('misLibros') || '[]'); } catch(e) {}
+
+    function getLibros() { return [...LIBROS, ...extras]; }
+
     // ── ESTANTERÍA ──
     const rankColors = ['gold','silver','bronze'];
-    const shelfBooks = [...LIBROS]
-      .filter(b => b.estrellas > 0)
-      .sort((a, b) => b.estrellas - a.estrellas);
 
     // ── MODAL ──
     const overlay = document.getElementById('bookModalOverlay');
@@ -597,7 +777,8 @@
       document.getElementById('bookModalAuthor').textContent = libro.autor;
       document.getElementById('bookModalMeta').innerHTML = `
         <span>📅 ${fechas}</span>
-        <span>${libro.estado === 'leido' ? '✓ Leído' : libro.estado === 'leyendo' ? '📖 Leyendo' : '⏳ Pendiente'}</span>`;
+        <span>${libro.estado === 'leido' ? '✓ Leído' : libro.estado === 'leyendo' ? '📖 Leyendo' : '⏳ Pendiente'}</span>
+        ${libro.paginas ? `<span>📄 ${libro.paginas} págs</span>` : ''}`;
       document.getElementById('bookModalSummary').textContent = libro.resumen;
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -613,8 +794,16 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     const plank = document.getElementById('shelfPlank');
-    shelfBooks.forEach((libro, i) => {
+
+    function renderShelf() {
+      plank.innerHTML = '';
+      const shelfBooks = getLibros()
+        .filter(b => b.estrellas > 0)
+        .sort((a, b) => b.estrellas - a.estrellas);
+      shelfBooks.forEach((libro, i) => {
       const altura = 90 + libro.estrellas * 12;
+      // Grosor del lomo según nº de páginas (mín 26px, máx 62px)
+      const ancho = Math.max(26, Math.min(62, Math.round((libro.paginas || 300) / 14)));
       const badgeClass = rankColors[i] || 'rest';
       const div = document.createElement('div');
       div.className = 'shelf-book';
@@ -625,16 +814,21 @@
           <div style="color:var(--ink-lighter);font-size:11px;margin-bottom:4px">${libro.autor}</div>
           <div class="tt-stars">${'★'.repeat(libro.estrellas)}</div>
         </div>
-        <div class="book-spine" style="height:${altura}px; background:${libro.color}">
+        <div class="book-spine" style="height:${altura}px; width:${ancho}px; background:${libro.color}">
           ${libro.titulo}
         </div>`;
       div.addEventListener('click', () => openModal(libro));
       plank.appendChild(div);
-    });
+      });
+    }
+    renderShelf();
 
     // ── TARJETAS ──
     const grid = document.getElementById('booksGrid');
-    LIBROS.forEach(libro => {
+
+    function renderGrid() {
+      grid.innerHTML = '';
+      getLibros().forEach(libro => {
       const fechas = libro.estado === 'pendiente'
         ? 'Pendiente'
         : libro.fechaFin
@@ -664,10 +858,13 @@
         </div>`;
       card.addEventListener('click', () => openModal(libro));
       grid.appendChild(card);
-    });
+      });
+    }
+    renderGrid();
 
     // ── FILTROS ──
     document.querySelectorAll('.filter-btn').forEach(btn => {
+      if (!btn.dataset.filter) return;
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -677,6 +874,53 @@
             filter === 'all' || card.dataset.status === filter ? '' : 'none';
         });
       });
+    });
+
+    // ── AÑADIR LIBRO ──
+    const addOverlay = document.getElementById('addOverlay');
+    document.getElementById('addBookBtn').addEventListener('click', () => {
+      document.getElementById('snippetBox').classList.remove('show');
+      addOverlay.classList.add('open');
+    });
+    document.getElementById('addClose').addEventListener('click', () => addOverlay.classList.remove('open'));
+    addOverlay.addEventListener('click', e => { if (e.target === addOverlay) addOverlay.classList.remove('open'); });
+
+    document.getElementById('addSubmit').addEventListener('click', () => {
+      const libro = {
+        titulo: document.getElementById('bTitulo').value.trim(),
+        autor: document.getElementById('bAutor').value.trim(),
+        estrellas: parseInt(document.getElementById('bEstrellas').value, 10),
+        estado: document.getElementById('bEstado').value,
+        fechaInicio: document.getElementById('bInicio').value.trim() || null,
+        fechaFin: document.getElementById('bFin').value.trim() || null,
+        paginas: parseInt(document.getElementById('bPaginas').value, 10) || null,
+        resumen: document.getElementById('bResumen').value.trim(),
+        color: document.getElementById('bColor').value,
+        emoji: '📖',
+        portada: document.getElementById('bPortada').value.trim() || null
+      };
+      if (!libro.titulo) { alert('Pon al menos el título'); return; }
+
+      extras.push(libro);
+      try { localStorage.setItem('misLibros', JSON.stringify(extras)); } catch(e) {}
+      renderShelf();
+      renderGrid();
+
+      const snippet = `{
+  titulo: '${libro.titulo.replace(/'/g, "\\'")}',
+  autor: '${(libro.autor||'').replace(/'/g, "\\'")}',
+  estrellas: ${libro.estrellas},
+  estado: '${libro.estado}',
+  fechaInicio: ${libro.fechaInicio ? `'${libro.fechaInicio}'` : 'null'},
+  fechaFin: ${libro.fechaFin ? `'${libro.fechaFin}'` : 'null'},
+  paginas: ${libro.paginas || 'null'},
+  resumen: '${(libro.resumen||'').replace(/'/g, "\\'")}',
+  color: '${libro.color}',
+  emoji: '📖',
+  portada: ${libro.portada ? `'${libro.portada}'` : 'null'}
+},`;
+      document.getElementById('snippetText').value = snippet;
+      document.getElementById('snippetBox').classList.add('show');
     });
   </script>
 

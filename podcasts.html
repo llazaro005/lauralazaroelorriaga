@@ -5,137 +5,251 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Podcasts · Mi espacio</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="icon" type="image/png" href="assets/web_logo.png">
   <style>
-    /* ── PODCAST BUBBLES LAYOUT ── */
-    .podcast-section {
-      margin-bottom: 56px;
+    /* ── BURBUJAS GRANDES (categorías) ── */
+    .cats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: start;
     }
 
-    .podcast-section-label {
+    .big-bubble {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1.5px solid rgba(184,134,11,0.2);
+      border-radius: 36px;
+      padding: 28px 26px;
+    }
+
+    .big-bubble-head {
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 24px;
+      gap: 10px;
+      margin-bottom: 22px;
     }
 
-    .podcast-section-label .section-flag {
-      font-size: 22px;
+    .big-bubble-head .bb-emoji {
+      font-size: 24px;
       line-height: 1;
     }
 
-    .podcast-section-label h2 {
+    .big-bubble-head h2 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 26px;
-      font-weight: 400;
+      font-size: 24px;
+      font-weight: 500;
       color: var(--ink);
-      letter-spacing: 0.01em;
     }
 
-    .podcast-section-label h2 em {
+    .big-bubble-head h2 em {
       font-style: italic;
       color: var(--gold);
     }
 
-    .podcast-section-line {
-      flex: 1;
-      height: 1px;
-      background: rgba(184, 134, 11, 0.15);
+    /* ── SUB-BURBUJAS (podcasts) ── */
+    .sub-bubbles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
     }
 
-    /* ── BUBBLE GRID ── */
-    .bubbles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 20px;
-    }
-
-    .bubble-card {
+    .sub-bubble {
+      width: 104px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      cursor: pointer;
       text-decoration: none;
       color: inherit;
     }
 
-    .bubble-img-wrap {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      border-radius: 18px;
+    .sb-img {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
       overflow: hidden;
       background: var(--cream-dark);
-      border: 1.5px solid rgba(184, 134, 11, 0.15);
+      border: 2.5px solid rgba(184,134,11,0.25);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 48px;
+      font-size: 38px;
       transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
       position: relative;
     }
 
-    .bubble-card:hover .bubble-img-wrap {
-      transform: translateY(-5px) scale(1.03);
-      box-shadow: 0 14px 32px rgba(184, 134, 11, 0.13);
-      border-color: rgba(184, 134, 11, 0.4);
+    .sub-bubble:hover .sb-img {
+      transform: translateY(-5px) scale(1.06);
+      box-shadow: 0 12px 28px rgba(184,134,11,0.2);
+      border-color: var(--gold);
     }
 
-    .bubble-img-wrap img {
+    .sb-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    .bubble-status {
-      position: absolute;
-      top: 10px;
-      right: 10px;
+    .sb-name {
+      margin-top: 10px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .sb-host {
+      margin-top: 3px;
+      font-size: 10.5px;
+      color: var(--ink-lighter);
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    .sb-status {
+      margin-top: 5px;
       font-size: 9px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 3px 7px;
+      padding: 2px 8px;
       border-radius: 20px;
-      font-weight: 500;
     }
 
-    .bubble-status.escuchando {
-      background: rgba(184, 134, 11, 0.15);
-      color: var(--gold);
+    .sb-status.escuchando { background: rgba(184,134,11,0.13); color: var(--gold); }
+    .sb-status.escuchado  { background: rgba(61,53,48,0.08); color: var(--ink-light); }
+    .sb-status.pendiente  { background: rgba(176,169,164,0.2); color: var(--ink-lighter); }
+
+    /* ── BOTÓN AÑADIR ── */
+    .add-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      padding: 10px 22px;
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: background 0.25s, transform 0.25s;
     }
 
-    .bubble-status.escuchado {
-      background: rgba(61, 53, 48, 0.08);
-      color: var(--ink-light);
+    .add-btn:hover {
+      background: #9A7009;
+      transform: translateY(-2px);
     }
 
-    .bubble-status.pendiente {
-      background: rgba(176, 169, 164, 0.2);
-      color: var(--ink-lighter);
+    /* ── MODAL FORMULARIO ── */
+    .form-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(40,33,28,0.55);
+      backdrop-filter: blur(4px);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
     }
 
-    .bubble-name {
-      margin-top: 12px;
+    .form-overlay.open { display: flex; }
+
+    .form-modal {
+      background: var(--cream);
+      max-width: 480px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 32px 28px;
+      position: relative;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+    }
+
+    .form-modal h3 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 16px;
+      font-size: 26px;
       font-weight: 500;
+      margin-bottom: 20px;
       color: var(--ink);
-      line-height: 1.3;
     }
 
-    .bubble-host {
-      margin-top: 4px;
+    .form-modal label {
+      display: block;
       font-size: 11px;
-      color: var(--ink-lighter);
-      font-style: italic;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin: 14px 0 5px;
     }
 
-    @media (max-width: 600px) {
-      .bubbles-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-      }
-      .bubble-name { font-size: 13px; }
+    .form-modal input,
+    .form-modal select,
+    .form-modal textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid rgba(184,134,11,0.3);
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    .form-modal textarea { resize: vertical; min-height: 70px; }
+
+    .form-modal .form-submit {
+      margin-top: 22px;
+      width: 100%;
+      padding: 12px;
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+
+    .form-modal .form-submit:hover { background: #9A7009; }
+
+    .form-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: var(--ink-light);
+      cursor: pointer;
+    }
+
+    .snippet-box {
+      display: none;
+      margin-top: 18px;
+      padding: 14px;
+      background: rgba(184,134,11,0.07);
+      border: 1px dashed rgba(184,134,11,0.4);
+      font-size: 11px;
+    }
+
+    .snippet-box.show { display: block; }
+
+    .snippet-box p { margin-bottom: 8px; color: var(--ink-light); line-height: 1.5; }
+
+    .snippet-box textarea {
+      width: 100%;
+      min-height: 120px;
+      font-family: monospace;
+      font-size: 11px;
+    }
+
+    @media (max-width: 760px) {
+      .cats-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -143,7 +257,7 @@
 
   <nav>
     <a href="index.html" class="nav-logo">
-      <img src="assets/logo.png" alt="Logo">
+      <img src="assets/web_logo.png" alt="Logo">
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="libros.html">Libros</a></li>
@@ -159,93 +273,203 @@
   <main class="page-wrapper">
     <img src="assets/web_podcast.png" alt="" class="page-logo">
 
-
     <div class="page-header">
       <p class="page-header-eyebrow">Lo que escucho</p>
       <h1 class="page-header-title">Mis <em>podcasts</em></h1>
     </div>
 
     <div class="polaroid-wrap">
-        <div class="polaroid">
-          <img src="assets/podcast.jpeg" alt="Podcasts">
-          <div class="polaroid-caption">en bucle</div>
+      <div class="polaroid">
+        <img src="assets/podcast.jpeg" alt="Podcasts">
+        <div class="polaroid-caption">en bucle</div>
+      </div>
+    </div>
+
+    <div class="content-area">
+
+      <button class="add-btn" id="addPodcastBtn">＋ Añadir podcast</button>
+
+      <div class="cats-grid" id="catsGrid"></div>
+
+    </div>
+
+    <!-- ── MODAL AÑADIR PODCAST ── -->
+    <div class="form-overlay" id="formOverlay">
+      <div class="form-modal">
+        <button class="form-close" id="formClose">✕</button>
+        <h3>Añadir podcast</h3>
+
+        <label>Categoría</label>
+        <select id="fCategoria"></select>
+
+        <label>O crea una categoría nueva (deja vacío si usas una de arriba)</label>
+        <input type="text" id="fCategoriaNueva" placeholder="p. ej. True crime">
+
+        <label>Nombre del podcast</label>
+        <input type="text" id="fNombre" placeholder="Nombre">
+
+        <label>Presentadores</label>
+        <input type="text" id="fHost" placeholder="Quién lo presenta">
+
+        <label>URL del canal de YouTube</label>
+        <input type="text" id="fUrl" placeholder="https://www.youtube.com/@...">
+
+        <label>Imagen (ruta en assets, opcional)</label>
+        <input type="text" id="fImg" placeholder="assets/podcast_nombre.jpeg">
+
+        <label>Estado</label>
+        <select id="fEstado">
+          <option value="escuchando">Escuchando</option>
+          <option value="escuchado">Escuchado</option>
+          <option value="pendiente">Pendiente</option>
+        </select>
+
+        <button class="form-submit" id="formSubmit">Añadir</button>
+
+        <div class="snippet-box" id="snippetBox">
+          <p>✅ Añadido. Se guarda en este navegador. Para hacerlo <strong>permanente</strong>, copia esto y pégalo dentro de la categoría correspondiente en el array PODCASTS de podcasts.html:</p>
+          <textarea id="snippetText" readonly></textarea>
         </div>
       </div>
-      <div class="content-area">
-
-      <!-- SECCIÓN: INGLÉS -->
-      <div class="podcast-section">
-        <div class="podcast-section-label">
-          <span class="section-flag">🇬🇧</span>
-          <h2>En <em>inglés</em></h2>
-          <div class="podcast-section-line"></div>
-        </div>
-
-        <div class="bubbles-grid">
-
-          <div class="bubble-card">
-            <div class="bubble-img-wrap">
-              🎙️
-              <span class="bubble-status escuchando">Escuchando</span>
-            </div>
-            <div class="bubble-name">Call Her Daddy</div>
-            <div class="bubble-host">Alex Cooper</div>
-          </div>
-
-          <!-- Añade más podcasts en inglés aquí -->
-
-        </div>
-      </div>
-
-      <!-- SECCIÓN: HUMOR -->
-      <div class="podcast-section">
-        <div class="podcast-section-label">
-          <span class="section-flag">😂</span>
-          <h2><em>Humor</em></h2>
-          <div class="podcast-section-line"></div>
-        </div>
-
-        <div class="bubbles-grid">
-
-          <div class="bubble-card">
-            <div class="bubble-img-wrap">
-              🎤
-              <span class="bubble-status escuchando">Escuchando</span>
-            </div>
-            <div class="bubble-name">Estirando el Chicle</div>
-            <div class="bubble-host">Carolina Iglesias · Victoria Martín</div>
-          </div>
-
-          <div class="bubble-card">
-            <div class="bubble-img-wrap">
-              🃏
-              <span class="bubble-status escuchando">Escuchando</span>
-            </div>
-            <div class="bubble-name">Reyes del Palique</div>
-            <div class="bubble-host">Ignatius Farray · Jorge Ponce</div>
-          </div>
-
-          <!-- Añade más podcasts de humor aquí -->
-
-        </div>
-      </div>
-
-      <!-- Añade más secciones copiando el bloque podcast-section -->
-
     </div>
 
   </main>
 
   <footer>
-    <div class="footer-logo"><img src="assets/logo.png" alt="Logo"></div>
+    <div class="footer-logo"><img src="assets/web_logo.png" alt="Logo"></div>
     <p class="footer-text">Hecho con cariño · <span id="year"></span></p>
   </footer>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
-    hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+    document.getElementById('hamburger').addEventListener('click', () =>
+      document.getElementById('navLinks').classList.toggle('open'));
+
+    // ── DATOS ──
+    // Edita aquí para añadir categorías y podcasts de forma permanente
+    const PODCASTS = [
+      {
+        categoria: 'En inglés',
+        emoji: '🇬🇧',
+        podcasts: [
+          {
+            nombre: 'Call Her Daddy',
+            host: 'Alex Cooper',
+            img: 'assets/podcast_callherdaddy.jpeg',
+            url: 'https://www.youtube.com/@callherdaddy',
+            estado: 'escuchando'
+          },
+        ]
+      },
+      {
+        categoria: 'Humor',
+        emoji: '😂',
+        podcasts: [
+          {
+            nombre: 'Estirando el Chicle',
+            host: 'Carolina Iglesias · Victoria Martín',
+            img: null,
+            url: 'https://www.youtube.com/c/estirandoelchicle',
+            estado: 'escuchando'
+          },
+          {
+            nombre: 'Reyes del Palique',
+            host: 'Fizpireta · Uy Albert',
+            img: 'assets/podcast_reyesdelpalique.jpeg',
+            url: 'https://www.youtube.com/@ReyesdelPalique',
+            estado: 'escuchando'
+          },
+        ]
+      },
+    ];
+
+    // Podcasts añadidos desde el navegador (localStorage)
+    let extras = [];
+    try { extras = JSON.parse(localStorage.getItem('misPodcasts') || '[]'); } catch(e) {}
+
+    function getData() {
+      // clonar y fusionar extras
+      const data = PODCASTS.map(c => ({ ...c, podcasts: [...c.podcasts] }));
+      extras.forEach(p => {
+        let cat = data.find(c => c.categoria.toLowerCase() === p.categoria.toLowerCase());
+        if (!cat) {
+          cat = { categoria: p.categoria, emoji: '🎧', podcasts: [] };
+          data.push(cat);
+        }
+        cat.podcasts.push(p);
+      });
+      return data;
+    }
+
+    const estadoLabel = { escuchando: 'Escuchando', escuchado: 'Escuchado', pendiente: 'Pendiente' };
+
+    function render() {
+      const grid = document.getElementById('catsGrid');
+      grid.innerHTML = '';
+      getData().forEach(cat => {
+        const bubble = document.createElement('div');
+        bubble.className = 'big-bubble';
+        const subs = cat.podcasts.map(p => `
+          <a class="sub-bubble" href="${p.url || '#'}" ${p.url ? 'target="_blank" rel="noopener"' : ''}>
+            <div class="sb-img">
+              ${p.img ? `<img src="${p.img}" alt="${p.nombre}">` : '🎙️'}
+            </div>
+            <div class="sb-name">${p.nombre}</div>
+            <div class="sb-host">${p.host || ''}</div>
+            <div class="sb-status ${p.estado}">${estadoLabel[p.estado] || ''}</div>
+          </a>`).join('');
+        bubble.innerHTML = `
+          <div class="big-bubble-head">
+            <span class="bb-emoji">${cat.emoji}</span>
+            <h2>${cat.categoria}</h2>
+          </div>
+          <div class="sub-bubbles">${subs}</div>`;
+        grid.appendChild(bubble);
+      });
+
+      // refrescar select de categorías
+      const sel = document.getElementById('fCategoria');
+      sel.innerHTML = getData().map(c => `<option>${c.categoria}</option>`).join('');
+    }
+
+    render();
+
+    // ── FORMULARIO ──
+    const overlay = document.getElementById('formOverlay');
+    document.getElementById('addPodcastBtn').addEventListener('click', () => {
+      document.getElementById('snippetBox').classList.remove('show');
+      overlay.classList.add('open');
+    });
+    document.getElementById('formClose').addEventListener('click', () => overlay.classList.remove('open'));
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+
+    document.getElementById('formSubmit').addEventListener('click', () => {
+      const nueva = document.getElementById('fCategoriaNueva').value.trim();
+      const p = {
+        categoria: nueva || document.getElementById('fCategoria').value,
+        nombre: document.getElementById('fNombre').value.trim(),
+        host: document.getElementById('fHost').value.trim(),
+        url: document.getElementById('fUrl').value.trim(),
+        img: document.getElementById('fImg').value.trim() || null,
+        estado: document.getElementById('fEstado').value
+      };
+      if (!p.nombre) { alert('Pon al menos el nombre del podcast'); return; }
+
+      extras.push(p);
+      try { localStorage.setItem('misPodcasts', JSON.stringify(extras)); } catch(e) {}
+      render();
+
+      // snippet para hacerlo permanente
+      const snippet = `{
+  nombre: '${p.nombre.replace(/'/g, "\\'")}',
+  host: '${(p.host||'').replace(/'/g, "\\'")}',
+  img: ${p.img ? `'${p.img}'` : 'null'},
+  url: '${p.url}',
+  estado: '${p.estado}'
+},`;
+      document.getElementById('snippetText').value = snippet;
+      document.getElementById('snippetBox').classList.add('show');
+    });
   </script>
 
 </body>
