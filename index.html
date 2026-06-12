@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi espacio</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="assets/logo.png" alt="Logo">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="libros.html">Libros</a></li>
+      <li><a href="podcasts.html">Podcasts</a></li>
+      <li><a href="recomendaciones.html">Recomendaciones</a></li>
+      <li><a href="proyectos.html">Proyectos web</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <main class="page-wrapper">
+
+    <section class="hero">
+      <img src="assets/logo.png" alt="Logo" class="hero-logo">
+      <p class="hero-eyebrow">Mi rincón digital</p>
+      <h1 class="hero-title">Lecturas, escuchas<br>y <em>curiosidades</em></h1>
+      <p class="hero-subtitle">
+        Un espacio donde guardo lo que leo, escucho y descubro. 
+        Recomendaciones honestas y proyectos propios.
+      </p>
+      <div class="hero-divider"></div>
+    </section>
+
+    <div class="sections-grid">
+
+      <a href="libros.html" class="section-card">
+        <div class="card-icon">📚</div>
+        <div class="card-title">Libros</div>
+        <div class="card-desc">Lecturas terminadas, en curso y pendientes. Con valoración, fechas y mis notas.</div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <a href="podcasts.html" class="section-card">
+        <div class="card-icon">🎙️</div>
+        <div class="card-title">Podcasts</div>
+        <div class="card-desc">Los que escucho, los que he terminado y los que tengo en lista de espera.</div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <a href="recomendaciones.html" class="section-card">
+        <div class="card-icon">✨</div>
+        <div class="card-title">Recomendaciones</div>
+        <div class="card-desc">Películas, series, artículos, herramientas — todo lo que merece ser compartido.</div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <a href="proyectos.html" class="section-card">
+        <div class="card-icon">🌐</div>
+        <div class="card-title">Proyectos web</div>
+        <div class="card-desc">Páginas y herramientas que he creado. Un escaparate de lo que he ido construyendo.</div>
+        <div class="card-arrow">→</div>
+      </a>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo"><img src="assets/logo.png" alt="Logo"></div>
+    <p class="footer-text">Hecho con cariño · <span id="year"></span></p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Mark active nav link
+    const links = document.querySelectorAll('.nav-links a');
+    links.forEach(link => {
+      if (link.href === location.href) link.classList.add('active');
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recomendaciones · Mi espacio</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="assets/logo.png" alt="Logo">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="libros.html">Libros</a></li>
+      <li><a href="podcasts.html">Podcasts</a></li>
+      <li><a href="recomendaciones.html" class="active">Recomendaciones</a></li>
+      <li><a href="proyectos.html">Proyectos web</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main class="page-wrapper">
+
+    <div class="page-header">
+      <p class="page-header-eyebrow">Lo que merece la pena</p>
+      <h1 class="page-header-title">Mis <em>recomendaciones</em></h1>
+    </div>
+
+    <div class="content-area">
+
+      <div class="books-filters">
+        <button class="filter-btn active" data-filter="all">Todo</button>
+        <button class="filter-btn" data-filter="pelicula">Películas</button>
+        <button class="filter-btn" data-filter="serie">Series</button>
+        <button class="filter-btn" data-filter="articulo">Artículos</button>
+        <button class="filter-btn" data-filter="herramienta">Herramientas</button>
+        <button class="filter-btn" data-filter="otro">Otros</button>
+      </div>
+
+      <div class="reco-grid" id="recoGrid">
+
+        <div class="reco-card" data-type="pelicula">
+          <div class="reco-type">🎬 Película</div>
+          <div class="reco-title">Título de la película</div>
+          <div class="reco-creator">Dir. Nombre del director</div>
+          <div class="reco-text">
+            Por qué la recomiendas. Qué te pareció, a quién crees que le gustaría, 
+            qué tiene de especial.
+          </div>
+        </div>
+
+        <div class="reco-card" data-type="serie">
+          <div class="reco-type">📺 Serie</div>
+          <div class="reco-title">Nombre de la serie</div>
+          <div class="reco-creator">Plataforma · Año</div>
+          <div class="reco-text">
+            Tu opinión sobre la serie. Temporadas que recomiendas, 
+            qué la hace diferente.
+          </div>
+        </div>
+
+        <div class="reco-card" data-type="articulo">
+          <div class="reco-type">📝 Artículo</div>
+          <div class="reco-title">Título del artículo</div>
+          <div class="reco-creator">Autor · Publicación</div>
+          <div class="reco-text">
+            De qué trata, por qué merece leerse, qué te aportó.
+          </div>
+        </div>
+
+        <div class="reco-card" data-type="herramienta">
+          <div class="reco-type">🛠️ Herramienta</div>
+          <div class="reco-title">Nombre de la herramienta</div>
+          <div class="reco-creator">Gratis / De pago</div>
+          <div class="reco-text">
+            Para qué sirve, cómo la usas, por qué la recomiendas sobre otras similares.
+          </div>
+        </div>
+
+        <div class="reco-card" data-type="otro">
+          <div class="reco-type">✨ Otro</div>
+          <div class="reco-title">Algo que mola</div>
+          <div class="reco-creator">Categoría libre</div>
+          <div class="reco-text">
+            Lo que sea que quieras recomendar que no encaja en otro sitio.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo"><img src="assets/logo.png" alt="Logo"></div>
+    <p class="footer-text">Hecho con cariño · <span id="year"></span></p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.reco-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        cards.forEach(card => {
+          card.style.display =
+            filter === 'all' || card.dataset.type === filter ? '' : 'none';
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

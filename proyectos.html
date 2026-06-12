@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proyectos web · Mi espacio</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="assets/logo.png" alt="Logo">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="libros.html">Libros</a></li>
+      <li><a href="podcasts.html">Podcasts</a></li>
+      <li><a href="recomendaciones.html">Recomendaciones</a></li>
+      <li><a href="proyectos.html" class="active">Proyectos web</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main class="page-wrapper">
+
+    <div class="page-header">
+      <p class="page-header-eyebrow">Lo que he construido</p>
+      <h1 class="page-header-title">Proyectos <em>web</em></h1>
+    </div>
+
+    <div class="content-area">
+
+      <div class="projects-grid">
+
+        <a href="https://iraiacruceleguipsicologia.github.io/" target="_blank" rel="noopener" class="project-card project-card--link">
+          <div class="project-preview project-preview--iraia">
+            <img src="assets/stripes_iraia.jpeg" alt="Fondo web Iraia" class="project-preview-bg">
+            <img src="assets/logo_iraia.png" alt="Logo Iraia Crucelegui" class="project-preview-logo">
+          </div>
+          <div class="project-body">
+            <div class="project-tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+            </div>
+            <div class="project-title">Web Iraia</div>
+            <div class="project-desc">
+              Página profesional para Iraia Crucelegui, psicóloga general sanitaria en Mungia. 
+              Diseño limpio y cálido, con sección de servicios, reseñas y contacto.
+            </div>
+            <span class="project-link">Ver proyecto →</span>
+          </div>
+        </a>
+
+        <div class="project-card">
+          <div class="project-preview">⚙️</div>
+          <div class="project-body">
+            <div class="project-tags">
+              <span class="tag">JavaScript</span>
+              <span class="tag">API</span>
+            </div>
+            <div class="project-title">Otro proyecto</div>
+            <div class="project-desc">
+              Lo que hace, cómo funciona por encima, tecnologías usadas 
+              y lo más interesante del proceso.
+            </div>
+            <a href="#" class="project-link">Ver proyecto →</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-preview">🎨</div>
+          <div class="project-body">
+            <div class="project-tags">
+              <span class="tag">Diseño</span>
+              <span class="tag">React</span>
+            </div>
+            <div class="project-title">Tercer proyecto</div>
+            <div class="project-desc">
+              Descripción del proyecto. Qué tiene de especial, 
+              qué retos encontraste.
+            </div>
+            <a href="#" class="project-link">Ver proyecto →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo"><img src="assets/logo.png" alt="Logo"></div>
+    <p class="footer-text">Hecho con cariño · <span id="year"></span></p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Podcasts · Mi espacio</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="assets/logo.png" alt="Logo">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="libros.html">Libros</a></li>
+      <li><a href="podcasts.html" class="active">Podcasts</a></li>
+      <li><a href="recomendaciones.html">Recomendaciones</a></li>
+      <li><a href="proyectos.html">Proyectos web</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main class="page-wrapper">
+
+    <div class="page-header">
+      <p class="page-header-eyebrow">Lo que escucho</p>
+      <h1 class="page-header-title">Mis <em>podcasts</em></h1>
+    </div>
+
+    <div class="content-area">
+
+      <div class="books-filters">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="escuchando">Escuchando</button>
+        <button class="filter-btn" data-filter="escuchado">Escuchados</button>
+        <button class="filter-btn" data-filter="pendiente">Pendientes</button>
+      </div>
+
+      <div class="podcasts-list" id="podcastsList">
+
+        <div class="podcast-card" data-status="escuchando">
+          <div class="podcast-thumb">🎙️</div>
+          <div class="podcast-info">
+            <span class="podcast-status escuchando">Escuchando</span>
+            <div class="podcast-title">Nombre del podcast</div>
+            <div class="podcast-host">Con Nombre del presentador</div>
+            <div class="podcast-desc">
+              Breve descripción del podcast. De qué trata, qué te aporta, 
+              por qué lo recomiendas o lo tienes en lista.
+            </div>
+          </div>
+        </div>
+
+        <div class="podcast-card" data-status="escuchado">
+          <div class="podcast-thumb">🎧</div>
+          <div class="podcast-info">
+            <span class="podcast-status escuchado">Escuchado</span>
+            <div class="podcast-title">Otro podcast</div>
+            <div class="podcast-host">Con Alguien interesante</div>
+            <div class="podcast-desc">
+              Tu valoración. Lo que te pareció, episodios favoritos, 
+              a quién se lo recomendarías.
+            </div>
+          </div>
+        </div>
+
+        <div class="podcast-card" data-status="pendiente">
+          <div class="podcast-thumb">⏳</div>
+          <div class="podcast-info">
+            <span class="podcast-status pendiente">Pendiente</span>
+            <div class="podcast-title">Por escuchar</div>
+            <div class="podcast-host">Con Alguien</div>
+            <div class="podcast-desc">
+              Por qué te llama la atención o quién te lo recomendó.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo"><img src="assets/logo.png" alt="Logo"></div>
+    <p class="footer-text">Hecho con cariño · <span id="year"></span></p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.podcast-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        cards.forEach(card => {
+          card.style.display =
+            filter === 'all' || card.dataset.status === filter ? '' : 'none';
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
