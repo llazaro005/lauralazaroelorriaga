@@ -62,7 +62,10 @@ nav {
 
 .nav-logo img {
   height: 38px;
-  width: auto;
+  width: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .nav-logo-text {
@@ -149,7 +152,10 @@ nav {
 
 .hero-logo {
   width: 180px;
-  height: auto;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
   margin-bottom: 36px;
   opacity: 0;
   animation: fadeUp 0.9s ease 0.2s forwards;
