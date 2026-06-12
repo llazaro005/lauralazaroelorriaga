@@ -878,11 +878,11 @@ body {
   border: 3px solid rgba(255,255,255,0.85);
 }
 
-/* ── POLAROID (debajo del logo) ── */
+/* ── POLAROID (arriba a la derecha) ── */
 .polaroid-wrap {
   position: absolute;
-  top: 215px;
-  left: 40px;
+  top: 95px;
+  right: 48px;
   z-index: 5;
 }
 
