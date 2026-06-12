@@ -24,6 +24,9 @@ html {
 
 body {
   background-color: var(--cream);
+  background-image: url('assets/fondo_pantalla.jpeg');
+  background-repeat: repeat;
+  background-size: 400px;
   color: var(--ink);
   font-family: 'Inter', sans-serif;
   font-weight: 300;
