@@ -839,19 +839,19 @@ body::after {
 
 body.page-index::after,
 body.page-recomendaciones::after {
-  background-image: url('assets/fondo_1.jpeg');
+  background-image: url('assets/fondo_pantalla_1.jpeg');
 }
 
 body.page-libros::after {
-  background-image: url('assets/fondo_2.jpeg');
+  background-image: url('assets/fondo_pantalla_2.jpeg');
 }
 
 body.page-podcasts::after {
-  background-image: url('assets/fondo_5.jpeg');
+  background-image: url('assets/fondo_pantalla_5.jpeg');
 }
 
 body.page-proyectos::after {
-  background-image: url('assets/fondo_6.jpeg');
+  background-image: url('assets/fondo_pantalla_6.jpeg');
 }
 
 body {
@@ -860,21 +860,58 @@ body {
 }
 
 
-/* ── POLAROID ── */
+/* ── LOGO DE PÁGINA (arriba a la derecha) ── */
+.page-logo {
+  position: absolute;
+  top: 88px;
+  right: 48px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 6;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  border: 3px solid rgba(255,255,255,0.85);
+}
+
+@media (max-width: 900px) {
+  .page-logo {
+    position: static;
+    display: block;
+    margin: 20px auto 0;
+    width: 90px;
+    height: 90px;
+  }
+}
+
+/* ── POLAROID (debajo del logo, a la derecha) ── */
 .polaroid-wrap {
-  display: flex;
-  justify-content: center;
-  margin: 0 auto 48px;
+  position: absolute;
+  top: 220px;
+  right: 48px;
+  z-index: 5;
+}
+
+.page-wrapper {
+  position: relative;
+}
+
+@media (max-width: 900px) {
+  .polaroid-wrap {
+    position: static;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 32px;
+  }
 }
 
 .polaroid {
   background: #fff;
-  padding: 14px 14px 40px;
+  padding: 10px 10px 30px;
   box-shadow: 0 6px 24px rgba(0,0,0,0.13), 0 1px 4px rgba(0,0,0,0.08);
-  transform: rotate(-2deg);
+  transform: rotate(3deg);
   transition: transform 0.3s, box-shadow 0.3s;
-  max-width: 260px;
-  width: 100%;
+  width: 170px;
 }
 
 .polaroid:hover {

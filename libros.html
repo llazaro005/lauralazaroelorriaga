@@ -6,6 +6,432 @@
   <title>Libros · Mi espacio</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="assets/logo.png">
+  <style>
+
+    /* ── RANKING / ESTANTERÍA ── */
+    .shelf-section {
+      max-width: 1000px;
+      margin: 0 auto 60px;
+      padding: 0 40px;
+    }
+
+    .shelf-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .shelf-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(184,134,11,0.2);
+    }
+
+    /* La madera de la estantería */
+    .shelf {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(4px);
+      border-radius: 6px;
+      padding: 32px 28px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shelf-plank {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      padding-bottom: 0;
+      min-height: 160px;
+      position: relative;
+      flex-wrap: wrap;
+    }
+
+    /* tablón de madera */
+    .shelf-plank::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -28px;
+      right: -28px;
+      height: 14px;
+      background: linear-gradient(to bottom, #c8a97a, #a07850);
+      border-radius: 2px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+    }
+
+    .shelf-book {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.25s;
+      margin-bottom: 14px;
+    }
+
+    .shelf-book:hover {
+      transform: translateY(-12px);
+    }
+
+    .shelf-book:hover .shelf-tooltip {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .book-spine {
+      width: 36px;
+      border-radius: 3px 0 0 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      font-size: 10px;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.06em;
+      padding: 8px 4px;
+      box-shadow: inset -3px 0 6px rgba(0,0,0,0.15), 2px 0 4px rgba(0,0,0,0.1);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-height: 140px;
+      line-height: 1.2;
+    }
+
+    .shelf-book .rank-badge {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    .shelf-book .rank-badge.gold   { background: #D4A843; }
+    .shelf-book .rank-badge.silver { background: #A8A8A8; }
+    .shelf-book .rank-badge.bronze { background: #C07840; }
+    .shelf-book .rank-badge.rest   { background: var(--ink-light); }
+
+    /* Tooltip al hacer hover */
+    .shelf-tooltip {
+      position: absolute;
+      bottom: calc(100% + 18px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      background: var(--ink);
+      color: #fff;
+      border-radius: 6px;
+      padding: 10px 14px;
+      width: 180px;
+      font-size: 12px;
+      line-height: 1.5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 10;
+      text-align: center;
+    }
+
+    .shelf-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--ink);
+    }
+
+    .shelf-tooltip strong {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .shelf-tooltip .tt-stars {
+      color: var(--gold-light);
+      letter-spacing: 2px;
+      font-size: 11px;
+    }
+
+    /* ── TARJETAS DETALLE ── */
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 28px;
+    }
+
+    .book-card {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(184,134,11,0.12);
+      transition: transform 0.3s, box-shadow 0.3s;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .book-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.1);
+    }
+
+    .book-cover {
+      aspect-ratio: 2/3;
+      background: var(--cream-dark);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .book-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .book-cover-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+    }
+
+    /* Color de fondo del placeholder = color del lomo */
+    .book-cover-placeholder.c1 { background: #7B9E87; }
+    .book-cover-placeholder.c2 { background: #C4956A; }
+    .book-cover-placeholder.c3 { background: #A0B4C8; }
+    .book-cover-placeholder.c4 { background: #C4A882; }
+    .book-cover-placeholder.c5 { background: #B07E8C; }
+
+    .book-info {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .book-stars {
+      color: var(--gold);
+      font-size: 13px;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+    }
+
+    .book-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .book-author {
+      font-size: 12px;
+      color: var(--ink-lighter);
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+
+    .book-dates {
+      font-size: 11px;
+      color: var(--ink-lighter);
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+    }
+
+    .book-summary {
+      font-size: 12.5px;
+      color: var(--ink-light);
+      line-height: 1.7;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .book-status-tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      margin-bottom: 10px;
+      align-self: flex-start;
+    }
+    .book-status-tag.leido    { background: rgba(184,134,11,0.1); color: var(--gold); }
+    .book-status-tag.leyendo  { background: rgba(122,110,104,0.1); color: var(--ink-light); }
+    .book-status-tag.pendiente{ background: rgba(176,169,164,0.15); color: var(--ink-lighter); }
+
+    @media (max-width: 600px) {
+      .shelf-section { padding: 0 16px; }
+      .book-spine { width: 28px; font-size: 9px; }
+      .books-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    }
+
+    /* ── MODAL FICHA LIBRO ── */
+    .book-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(40, 33, 28, 0.55);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .book-modal-overlay.open {
+      display: flex;
+      animation: modalFade 0.25s ease;
+    }
+
+    @keyframes modalFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .book-modal {
+      background: var(--cream);
+      max-width: 640px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      display: flex;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+      position: relative;
+      animation: modalUp 0.3s ease;
+    }
+
+    @keyframes modalUp {
+      from { transform: translateY(24px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .book-modal-cover {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--cream-dark);
+    }
+
+    .book-modal-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .book-modal-cover .modal-cover-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+    }
+
+    .book-modal-body {
+      padding: 32px 28px;
+      flex: 1;
+    }
+
+    .book-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--ink-light);
+      cursor: pointer;
+      line-height: 1;
+      padding: 6px;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .book-modal-close:hover {
+      color: var(--ink);
+      transform: rotate(90deg);
+    }
+
+    .book-modal-stars {
+      color: var(--gold);
+      font-size: 16px;
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+
+    .book-modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 4px;
+    }
+
+    .book-modal-author {
+      font-size: 14px;
+      font-style: italic;
+      color: var(--ink-lighter);
+      margin-bottom: 16px;
+    }
+
+    .book-modal-meta {
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      color: var(--ink-light);
+      padding: 10px 0;
+      border-top: 1px solid rgba(184,134,11,0.18);
+      border-bottom: 1px solid rgba(184,134,11,0.18);
+      margin-bottom: 16px;
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .book-modal-summary {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--ink-light);
+    }
+
+    @media (max-width: 560px) {
+      .book-modal { flex-direction: column; }
+      .book-modal-cover { width: 100%; max-height: 280px; }
+      .book-modal-cover img { max-height: 280px; }
+    }
+  </style>
 </head>
 <body class="page-libros">
 
@@ -25,6 +451,8 @@
   </nav>
 
   <main class="page-wrapper">
+    <img src="assets/web_libro.png" alt="" class="page-logo">
+
 
     <div class="page-header">
       <p class="page-header-eyebrow">Mi biblioteca</p>
@@ -32,13 +460,24 @@
     </div>
 
     <div class="polaroid-wrap">
-        <div class="polaroid">
-          <img src="assets/libros.jpeg" alt="Libros">
-          <div class="polaroid-caption">entre páginas</div>
+      <div class="polaroid">
+        <img src="assets/libros.jpeg" alt="Libros">
+        <div class="polaroid-caption">entre páginas</div>
+      </div>
+    </div>
+
+    <!-- ── ESTANTERÍA RANKING ── -->
+    <div class="shelf-section">
+      <div class="shelf-title">✦ mis favoritos</div>
+      <div class="shelf">
+        <div class="shelf-plank" id="shelfPlank">
+          <!-- Los libros se generan desde el JS con los mismos datos -->
         </div>
       </div>
-      <div class="content-area">
+    </div>
 
+    <!-- ── TARJETAS DETALLE ── -->
+    <div class="content-area">
       <div class="books-filters">
         <button class="filter-btn active" data-filter="all">Todos</button>
         <button class="filter-btn" data-filter="leido">Leídos</button>
@@ -46,56 +485,22 @@
         <button class="filter-btn" data-filter="pendiente">Pendientes</button>
       </div>
 
-      <div class="books-grid" id="booksGrid">
+      <div class="books-grid" id="booksGrid"></div>
+    </div>
 
-        <!-- Ejemplo: libro leído -->
-        <div class="book-card" data-status="leyendo">
-          <div class="book-cover">
-            <div class="book-cover-placeholder">📖</div>
-          </div>
-          <div class="book-info">
-            <div class="book-stars">★★★★★</div>
-            <div class="book-title">Título del libro</div>
-            <div class="book-author">Nombre del autor</div>
-            <div class="book-dates">Jun 2025 — leyendo</div>
-            <div class="book-summary">
-              Aquí irá tu resumen personal del libro. Puedes escribir lo que te pareció, 
-              qué te llevaste, si lo recomendarías...
-            </div>
-          </div>
+
+    <!-- ── MODAL FICHA ── -->
+    <div class="book-modal-overlay" id="bookModalOverlay">
+      <div class="book-modal">
+        <button class="book-modal-close" id="bookModalClose" aria-label="Cerrar">✕</button>
+        <div class="book-modal-cover" id="bookModalCover"></div>
+        <div class="book-modal-body">
+          <div class="book-modal-stars" id="bookModalStars"></div>
+          <div class="book-modal-title" id="bookModalTitle"></div>
+          <div class="book-modal-author" id="bookModalAuthor"></div>
+          <div class="book-modal-meta" id="bookModalMeta"></div>
+          <div class="book-modal-summary" id="bookModalSummary"></div>
         </div>
-
-        <div class="book-card" data-status="leido">
-          <div class="book-cover">
-            <div class="book-cover-placeholder">📗</div>
-          </div>
-          <div class="book-info">
-            <div class="book-stars">★★★★☆</div>
-            <div class="book-title">Otro libro</div>
-            <div class="book-author">Otra autora</div>
-            <div class="book-dates">Ene 2025 — Mar 2025</div>
-            <div class="book-summary">
-              Tu opinión sobre este libro. Lo que destacarías, lo que menos te gustó, 
-              a quién se lo recomendarías.
-            </div>
-          </div>
-        </div>
-
-        <div class="book-card" data-status="pendiente">
-          <div class="book-cover">
-            <div class="book-cover-placeholder">📕</div>
-          </div>
-          <div class="book-info">
-            <div class="book-stars">· · · · ·</div>
-            <div class="book-title">Pendiente de leer</div>
-            <div class="book-author">Autor</div>
-            <div class="book-dates">Pendiente</div>
-            <div class="book-summary">
-              Por qué tienes ganas de leerlo o quién te lo recomendó.
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
@@ -108,21 +513,166 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('hamburger').addEventListener('click', () =>
+      document.getElementById('navLinks').classList.toggle('open'));
 
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
-    hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+    // ── DATOS DE LIBROS ──
+    // Edita aquí para añadir o cambiar libros
+    const LIBROS = [
+      {
+        titulo: 'De Sangre y Cenizas',
+        autor: 'Jennifer L. Armentrout',
+        estrellas: 5,
+        estado: 'leido',
+        fechaInicio: 'Ene 2025',
+        fechaFin: 'Feb 2025',
+        resumen: 'Aquí va tu opinión personal del libro. Lo que te pareció, qué te llevaste, si lo recomendarías y a quién.',
+        color: '#5C1F1F',
+        emoji: '🗡️',
+        portada: 'assets/libro_desangreycenizas.jpg'
+      },
+      {
+        titulo: 'Otro libro',
+        autor: 'Otra autora',
+        estrellas: 4,
+        estado: 'leido',
+        fechaInicio: 'Mar 2025',
+        fechaFin: 'Abr 2025',
+        resumen: 'Tu valoración. Lo que destacarías, lo que menos te gustó, a quién se lo recomendarías.',
+        color: '#C4956A',
+        emoji: '📙'
+      },
+      {
+        titulo: 'Leyendo ahora',
+        autor: 'Autor',
+        estrellas: 0,
+        estado: 'leyendo',
+        fechaInicio: 'Jun 2025',
+        fechaFin: null,
+        resumen: 'Impresiones mientras lo lees. Puedes actualizarlo cuando termines.',
+        color: '#A0B4C8',
+        emoji: '📘'
+      },
+      {
+        titulo: 'Pendiente de leer',
+        autor: 'Autor',
+        estrellas: 0,
+        estado: 'pendiente',
+        fechaInicio: null,
+        fechaFin: null,
+        resumen: 'Por qué tienes ganas de leerlo o quién te lo recomendó.',
+        color: '#C4A882',
+        emoji: '📕'
+      },
+    ];
 
-    // Filter
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.book-card');
+    // ── ESTRELLAS ──
+    function renderStars(n) {
+      if (n === 0) return '<span style="color:var(--ink-lighter)">· · · · ·</span>';
+      return '★'.repeat(n) + '<span style="opacity:0.25">★</span>'.repeat(5 - n);
+    }
 
-    filterBtns.forEach(btn => {
+    // ── ESTANTERÍA ──
+    const rankColors = ['gold','silver','bronze'];
+    const shelfBooks = [...LIBROS]
+      .filter(b => b.estrellas > 0)
+      .sort((a, b) => b.estrellas - a.estrellas);
+
+    // ── MODAL ──
+    const overlay = document.getElementById('bookModalOverlay');
+    const modalClose = document.getElementById('bookModalClose');
+
+    function openModal(libro) {
+      const fechas = libro.estado === 'pendiente'
+        ? 'Pendiente'
+        : libro.fechaFin
+          ? `${libro.fechaInicio} — ${libro.fechaFin}`
+          : `${libro.fechaInicio} — leyendo`;
+
+      document.getElementById('bookModalCover').innerHTML = libro.portada
+        ? `<img src="${libro.portada}" alt="Portada de ${libro.titulo}">`
+        : `<div class="modal-cover-placeholder" style="background:${libro.color}">${libro.emoji}</div>`;
+      document.getElementById('bookModalStars').innerHTML = renderStars(libro.estrellas);
+      document.getElementById('bookModalTitle').textContent = libro.titulo;
+      document.getElementById('bookModalAuthor').textContent = libro.autor;
+      document.getElementById('bookModalMeta').innerHTML = `
+        <span>📅 ${fechas}</span>
+        <span>${libro.estado === 'leido' ? '✓ Leído' : libro.estado === 'leyendo' ? '📖 Leyendo' : '⏳ Pendiente'}</span>`;
+      document.getElementById('bookModalSummary').textContent = libro.resumen;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    const plank = document.getElementById('shelfPlank');
+    shelfBooks.forEach((libro, i) => {
+      const altura = 90 + libro.estrellas * 12;
+      const badgeClass = rankColors[i] || 'rest';
+      const div = document.createElement('div');
+      div.className = 'shelf-book';
+      div.innerHTML = `
+        <div class="rank-badge ${badgeClass}">${i + 1}</div>
+        <div class="shelf-tooltip">
+          <strong>${libro.titulo}</strong>
+          <div style="color:var(--ink-lighter);font-size:11px;margin-bottom:4px">${libro.autor}</div>
+          <div class="tt-stars">${'★'.repeat(libro.estrellas)}</div>
+        </div>
+        <div class="book-spine" style="height:${altura}px; background:${libro.color}">
+          ${libro.titulo}
+        </div>`;
+      div.addEventListener('click', () => openModal(libro));
+      plank.appendChild(div);
+    });
+
+    // ── TARJETAS ──
+    const grid = document.getElementById('booksGrid');
+    LIBROS.forEach(libro => {
+      const fechas = libro.estado === 'pendiente'
+        ? 'Pendiente'
+        : libro.fechaFin
+          ? `${libro.fechaInicio} — ${libro.fechaFin}`
+          : `${libro.fechaInicio} — leyendo`;
+
+      const card = document.createElement('div');
+      card.className = 'book-card';
+      card.dataset.status = libro.estado;
+      const coverHTML = libro.portada
+        ? `<img src="${libro.portada}" alt="Portada de ${libro.titulo}">`
+        : `<div class="book-cover-placeholder" style="background:${libro.color}">
+            <span style="font-size:44px">${libro.emoji}</span>
+          </div>`;
+      card.innerHTML = `
+        <div class="book-cover">${coverHTML}</div>
+        <div class="book-info">
+          <div class="book-stars">${renderStars(libro.estrellas)}</div>
+          <span class="book-status-tag ${libro.estado}">${
+            libro.estado === 'leido' ? 'Leído' :
+            libro.estado === 'leyendo' ? 'Leyendo' : 'Pendiente'
+          }</span>
+          <div class="book-title">${libro.titulo}</div>
+          <div class="book-author">${libro.autor}</div>
+          <div class="book-dates">${fechas}</div>
+          <div class="book-summary">${libro.resumen}</div>
+        </div>`;
+      card.addEventListener('click', () => openModal(libro));
+      grid.appendChild(card);
+    });
+
+    // ── FILTROS ──
+    document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const filter = btn.dataset.filter;
-        cards.forEach(card => {
+        document.querySelectorAll('.book-card').forEach(card => {
           card.style.display =
             filter === 'all' || card.dataset.status === filter ? '' : 'none';
         });
