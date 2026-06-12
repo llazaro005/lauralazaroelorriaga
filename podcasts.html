@@ -12,7 +12,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 28px;
-      align-items: start;
+      align-items: stretch;
     }
 
     .big-bubble {
@@ -22,6 +22,9 @@
       border: 1.5px solid rgba(184,134,11,0.2);
       border-radius: 36px;
       padding: 28px 26px;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
     }
 
     .big-bubble-head {
@@ -362,13 +365,20 @@
         ]
       },
       {
+        categoria: 'Libros',
+        emoji: '📚',
+        podcasts: [
+          // Añade aquí podcasts sobre libros
+        ]
+      },
+      {
         categoria: 'Humor',
         emoji: '😂',
         podcasts: [
           {
             nombre: 'Estirando el Chicle',
             host: 'Carolina Iglesias · Victoria Martín',
-            img: null,
+            img: 'assets/podcast_estirandoelchicle.jpeg',
             url: 'https://www.youtube.com/c/estirandoelchicle',
             estado: 'escuchando'
           },
